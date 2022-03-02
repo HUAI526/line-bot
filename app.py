@@ -35,12 +35,19 @@ def callback():
     return 'OK'
 
 
-@handler.add(MessageEvent, message=TextMessage)
+heroku_url = "https://huai-testlinebot.herokuapp.com"
+
+@handler.add(MessageEvent)
 def handle_message(event):
-    msg = event.message.text
-    line_bot_api.reply_message(
-        event.reply_token,
-        TextSendMessage(text='你好啊'))
+    if (event.message.type == "image"):
+        SendImage = line_bot_api.get_message_content(event.message.id)
+
+        local_save = './static/' + event.message.id + '.png'
+        with open(local_save, 'wb') as fd:
+            for chenk in SendImage.iter_content():
+                fd.write(chenk)
+                
+        line_bot_api.reply_message(event.reply_token, ImageSendMessage(original_content_url = ngrok_url + "/static/" + event.message.id + ".png", preview_image_url = ngrok_url + "/static/" + event.message.id + ".png"))
 
 
 if __name__ == "__main__":
