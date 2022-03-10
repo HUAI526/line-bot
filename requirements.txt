@@ -1,3 +1,9 @@
 line-bot-sdk
 gunicorn
 flask
+tensorflow
+matplotlib
+numpy
+keras
+ipython
+Pillow
